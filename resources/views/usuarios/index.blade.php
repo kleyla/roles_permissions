@@ -9,9 +9,11 @@
                     <h1>Lista usuarios</h1>
                 </div>
                 <div class="card-body">
+                    @role('super-admin|moderador')
                     <div class="row justify-content-end">
                         <a href="{{url('/usuarios/create')}}" class="btn btn-success">Nuevo</a>
                     </div>
+                    @endrole
                     <table class="table">
                         <thead>
                             <th>Name</th>
@@ -25,14 +27,20 @@
                                 <td>{{$user->name}}</td>
                                 <td>{{$user->email}}</td>
                                 <td>{{$user->roles->implode('name', ', ')}}</td>
-                                <td><a href="{{url('/usuarios/'.$user->id.'/edit')}}" class="btn btn-primary">Editar</a>
+                                <td>
+                                    @can('update user')
+                                    <a href="{{url('/usuarios/'.$user->id.'/edit')}}" class="btn btn-primary">Editar</a>
+                                    @endcan
+                                    @can('delete user')
                                     <a href="" class="btn btn-danger">Eliminar</a>
+                                    @endcan
                                 </td>
                             </tr>
                             @endforeach
                         </tbody>
                     </table>
                 </div>
+
             </div>
         </div>
     </div>
